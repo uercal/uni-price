@@ -176,6 +176,8 @@ class Member extends MemberModel
                 // 修改
                 if ($post['password'] == '#origin#') {
                     unset($post['password']);
+                }else{
+                    $post['password'] = yoshop_hash($post['password']);
                 }
                 $m_obj->allowField(true)->save($post);
                 // 修改分组情况                
