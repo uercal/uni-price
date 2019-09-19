@@ -56,37 +56,63 @@ class Goods extends GoodsModel
                     break;
                 case 1:
                     # 内部经销商
-                    $model = new GroupData;
-                    $mapRaw = "concat(',',child_member,',') LIKE '%$member_id%'";
-                    $_list = $model->where($mapRaw)->where(['create_member' => $pid])->value('data');
-                    $_list = json_decode($_list, true);
+                    $data = AdminData::where(['member_id' => $pid])->value('price_data');                    
+                    $_list = json_decode($data, true);
                     $_list = array_column($_list,'price','goods_id');
                     foreach ($list as $key => &$value) {
-                         // 
-                         if(!isset($_list[$value['goods_id']])){
+                        // 
+                        if(!isset($_list[$value['goods_id']])){
                             $value['price'] = 0;
                         }else{
-                            $value['price'] = $value['price']*$_list[$value['goods_id']]['rate']/100;
+                            $value['price'] = $_list[$value['goods_id']];
+                        }
+                        //                         
+                    } 
+                    $model = new GroupData;
+                    $mapRaw = "concat(',',child_member,',') LIKE '%$member_id%'";
+                    $__list = $model->where($mapRaw)->where(['create_member' => $pid])->value('data');
+                    $__list = json_decode($_list, true);
+                    $__list = array_column($_list,'price','goods_id');                                       
+                    foreach ($_list as $key => &$value) {
+                         // 
+                         if(!isset($__list[$value['goods_id']])){
+                            $value['price'] = 0;
+                        }else{
+                            $value['price'] = $value['price']*$__list[$value['goods_id']]['rate']/100;
                         }
                         //                         
                     }
+                    $list = $_list;
                     break;
                 case 2:
                     # 外部经销商
-                    $model = new GroupData;
-                    $mapRaw = "concat(',',child_member,',') LIKE '%$member_id%'";
-                    $_list = $model->where($mapRaw)->where(['create_member' => $pid])->value('data');
-                    $_list = json_decode($_list, true);
+                    $data = AdminData::where(['member_id' => $pid])->value('price_data');                    
+                    $_list = json_decode($data, true);
                     $_list = array_column($_list,'price','goods_id');
                     foreach ($list as $key => &$value) {
-                         // 
-                         if(!isset($_list[$value['goods_id']])){
+                        // 
+                        if(!isset($_list[$value['goods_id']])){
                             $value['price'] = 0;
                         }else{
-                            $value['price'] = $value['price']*$_list[$value['goods_id']]['rate']/100;
+                            $value['price'] = $_list[$value['goods_id']];
+                        }
+                        //                         
+                    } 
+                    $model = new GroupData;
+                    $mapRaw = "concat(',',child_member,',') LIKE '%$member_id%'";
+                    $__list = $model->where($mapRaw)->where(['create_member' => $pid])->value('data');
+                    $__list = json_decode($_list, true);
+                    $__list = array_column($_list,'price','goods_id');                                       
+                    foreach ($_list as $key => &$value) {
+                         // 
+                         if(!isset($__list[$value['goods_id']])){
+                            $value['price'] = 0;
+                        }else{
+                            $value['price'] = $value['price']*$__list[$value['goods_id']]['rate']/100;
                         }
                         //                         
                     }
+                    $list = $_list;
                     break;
             }
         } else {
