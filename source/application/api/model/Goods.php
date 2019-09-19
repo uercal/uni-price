@@ -66,7 +66,7 @@ class Goods extends GoodsModel
                          if(!isset($_list[$value['goods_id']])){
                             $value['price'] = 0;
                         }else{
-                            $value['price'] = $_list[$value['goods_id']];
+                            $value['price'] = $value['price']*$_list[$value['goods_id']]['rate']/100;
                         }
                         //                         
                     }
@@ -83,7 +83,7 @@ class Goods extends GoodsModel
                          if(!isset($_list[$value['goods_id']])){
                             $value['price'] = 0;
                         }else{
-                            $value['price'] = $_list[$value['goods_id']];
+                            $value['price'] = $value['price']*$_list[$value['goods_id']]['rate']/100;
                         }
                         //                         
                     }
