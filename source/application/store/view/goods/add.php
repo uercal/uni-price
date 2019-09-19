@@ -58,31 +58,7 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="widget-head am-cf">
-                                <div class="widget-title am-fl">规格/库存</div>
-                            </div>
-                            <div class="am-form-group">
-                                <label class="am-u-sm-3 am-u-lg-2 am-form-label form-require">商品规格 </label>
-                                <div class="am-u-sm-9 am-u-end">
-                                    <label class="am-radio-inline">
-                                        <input type="radio" name="goods[spec_type]" value="10" data-am-ucheck checked>
-                                        单规格
-                                    </label>                                    
-                                </div>
-                            </div>                           
-
-                            <div class="goods-spec-single">                                
-                                <div class="am-form-group">
-                                    <label class="am-u-sm-3 am-u-lg-2 am-form-label form-require">商品价格 </label>
-                                    <div class="am-u-sm-9 am-u-end">
-                                        <input type="number" class="tpl-form-input" name="goods[spec][goods_price]"
-                                               required>
-                                    </div>
-                                </div>                                                                
-                            </div>
-                            
-
+                             
                             <div class="widget-head am-cf">
                                 <div class="widget-title am-fl">商品详情</div>
                             </div>                            
@@ -92,7 +68,8 @@
                                     <!-- 加载编辑器的容器 -->
                                     <textarea id="container1" name="goods[content]" type="text/plain"></textarea>
                                 </div>
-                            </div>                            
+                            </div>  
+
                             <div class="widget-head am-cf">
                                 <div class="widget-title am-fl">其他</div>
                             </div>                            

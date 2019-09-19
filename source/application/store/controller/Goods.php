@@ -72,15 +72,9 @@ class Goods extends Controller
         // 商品详情
         $model = GoodsModel::detail($goods_id);
         if (!$this->request->isAjax()) {
-            // 商品分类
-            $catgory = Category::getCacheTree();
-            // 配送模板
-            $delivery = Delivery::getAll();
-            // 多规格信息
-            $specData = 'null';
-            if ($model['spec_type'] === 20)
-                $specData = json_encode($model->getManySpecData($model['spec_rel'], $model['spec']));
-            return $this->fetch('edit', compact('model', 'catgory', 'delivery', 'specData'));
+            // 商品分类            
+            $catgory = Category::getCacheTree();                       
+            return $this->fetch('edit', compact('model', 'catgory'));
         }
         // 更新记录
         if ($model->edit($this->postData('goods'))) {
