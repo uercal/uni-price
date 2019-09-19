@@ -29,10 +29,12 @@ class Index extends Controller
 
     public function index()
     {
-        $member = $this->getMember();
-        $member_id = $member ? $member['member_id'] : 0;
+        $member = $this->getMember();        
+        if(!$member){
+            return $this->renderError('用户不存在');
+        }
         $model = new GoodsModel;
-        $goods = $model->getIndexList($member_id);
+        $goods = $model->getIndexList($member['member_id']);
         $has_login = $member ? 1 : 0;
         $member = $member? $member : null;
         return $this->renderSuccess(compact('goods','has_login','member'));
