@@ -56,7 +56,8 @@ class Goods extends GoodsModel
                     break;
                 case 1:
                     # 内部经销商
-                    $data = AdminData::where(['member_id' => $pid])->value('price_data');                    
+                    $admin_id = Member::where(['username'=>'admin'])->value('member_id');
+                    $data = AdminData::where(['member_id' => $admin_id])->value('price_data');                    
                     $_list = json_decode($data, true);
                     $_list = array_column($_list,'price','goods_id');
                     foreach ($list as $key => &$value) {
@@ -71,22 +72,21 @@ class Goods extends GoodsModel
                     $model = new GroupData;
                     $mapRaw = "concat(',',child_member,',') LIKE '%$member_id%'";
                     $__list = $model->where($mapRaw)->where(['create_member' => $pid])->value('data');
-                    $__list = json_decode($_list, true);
-                    $__list = array_column($_list,'price','goods_id');                                       
-                    foreach ($_list as $key => &$value) {
-                         // 
-                         if(!isset($__list[$value['goods_id']])){
-                            $value['price'] = 0;
+                    $__list = json_decode($__list, true);
+                    $__list = array_column($__list,null,'goods_id');                                       
+                    foreach ($list as $key => &$value) {  
+                        if(!isset($__list[$value['goods_id']])){
+                            
                         }else{
-                            $value['price'] = $value['price']*$__list[$value['goods_id']]['rate']/100;
-                        }
-                        //                         
-                    }
-                    $list = $_list;
+                            $value['price'] = bcdiv($value['price']*$__list[$value['goods_id']]['rate'],100,2);
+                        }                                                                      
+                    }                    
                     break;
                 case 2:
                     # 外部经销商
-                    $data = AdminData::where(['member_id' => $pid])->value('price_data');                    
+                    // 获取供应商数据
+                    $admin_id = Member::where(['username'=>'admin'])->value('member_id');
+                    $data = AdminData::where(['member_id' => $admin_id])->value('price_data');                    
                     $_list = json_decode($data, true);
                     $_list = array_column($_list,'price','goods_id');
                     foreach ($list as $key => &$value) {
@@ -97,22 +97,33 @@ class Goods extends GoodsModel
                             $value['price'] = $_list[$value['goods_id']];
                         }
                         //                         
-                    } 
-                    $model = new GroupData;
-                    $mapRaw = "concat(',',child_member,',') LIKE '%$member_id%'";
-                    $__list = $model->where($mapRaw)->where(['create_member' => $pid])->value('data');
-                    $__list = json_decode($_list, true);
-                    $__list = array_column($_list,'price','goods_id');                                       
-                    foreach ($_list as $key => &$value) {
-                         // 
-                         if(!isset($__list[$value['goods_id']])){
-                            $value['price'] = 0;
-                        }else{
-                            $value['price'] = $value['price']*$__list[$value['goods_id']]['rate']/100;
-                        }
-                        //                         
                     }
-                    $list = $_list;
+                    // 获取内部经销 数据
+                    $model = new GroupData;
+                    $mapRaw = "concat(',',child_member,',') LIKE '%$pid%'";
+                    $__list = $model->where($mapRaw)->where(['create_member' => $admin_id])->value('data');
+                    $__list = json_decode($__list, true);
+                    $__list = array_column($__list,null,'goods_id');                                       
+                    foreach ($list as $key => &$value) {  
+                        if(!isset($__list[$value['goods_id']])){
+                            
+                        }else{
+                            $value['price'] = bcdiv($value['price']*$__list[$value['goods_id']]['rate'],100,2);
+                        }                                                                      
+                    }
+                    // 获取自己（外部）数据
+                    $_mapRaw = "concat(',',child_member,',') LIKE '%$member_id%'";
+                    $___list = $model->where($_mapRaw)->where(['create_member' => $pid])->value('data');
+                    $___list = json_decode($___list, true);
+                    $___list = array_column($___list,null,'goods_id');                                       
+                    foreach ($list as $key => &$value) {  
+                        if(!isset($___list[$value['goods_id']])){
+                            
+                        }else{
+                            $value['price'] = bcdiv($value['price']*$___list[$value['goods_id']]['rate'],100,2);
+                        }                                                                      
+                    }
+                    
                     break;
             }
         } else {

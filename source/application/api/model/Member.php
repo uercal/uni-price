@@ -38,7 +38,7 @@ class Member extends MemberModel
      */
     public static function getMember($token)
     {
-        return self::get(['member_id' => Cache::get($token)['member_id']])->toArray();
+        return self::get(['member_id' => Cache::get($token)['member_id']]);
     }
 
     /**
