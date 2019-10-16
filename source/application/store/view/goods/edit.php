@@ -180,23 +180,9 @@
          * 表单验证提交
          * @type {*}
          */
-        $('#my-form').superForm({
-            // form data
-            buildData: function () {
-                return {
-                    goods: {
-                        spec_many: specMany.getData()
-                    }
-                };
-            },
+        $('#my-form').superForm({            
             // 自定义验证
-            validation: function () {
-                var specType = $('input:radio[name="goods[spec_type]"]:checked').val();
-                if (specType === '20') {
-                    var isEmpty = specMany.isEmptySkuList();
-                    isEmpty === true && layer.msg('商品规格不能为空');
-                    return !isEmpty;
-                }
+            validation: function () {                
                 return true;
             }
         });

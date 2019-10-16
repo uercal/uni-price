@@ -12,6 +12,7 @@ use think\Db;
  */
 class Goods extends GoodsModel
 {
+	public $error;
     /**
      * 添加商品
      * @param array $data
@@ -29,14 +30,13 @@ class Goods extends GoodsModel
         Db::startTrans();
         try {
             // 添加商品
-            $this->allowField(true)->save($data);
-            // 商品规格
-            $this->addGoodsSpec($data);
+            $this->allowField(true)->save($data);           
             // 商品图片
             $this->addGoodsImages($data['images']);
             Db::commit();
             return true;
         } catch (\Exception $e) {
+			$this->error = $e->getMessage();
             Db::rollback();
         }
         return false;
@@ -78,9 +78,7 @@ class Goods extends GoodsModel
         Db::startTrans();
         try {
             // 保存商品
-            $this->allowField(true)->save($data);
-            // 商品规格
-            $this->addGoodsSpec($data, true);
+            $this->allowField(true)->save($data);            
             // 商品图片
             $this->addGoodsImages($data['images']);
             Db::commit();
